@@ -1,20 +1,51 @@
 plugins {
+    id 'java'
     id 'application'
 }
+
 repositories {
     mavenCentral()
 }
+
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+
+    implementation 'org.seleniumhq.selenium:selenium-java:4.20.0'
+
+    testImplementation 'org.testng:testng:7.9.0'
+
 }
+
 application {
     mainClass = 'org.example.Main'
 }
+
 tasks.register('prepareDocs', Copy) {
-    description = 'Copies HTML, CSS, and images to the docs folder.'
+
+    description = 'Copies HTML, CSS, and images to docs folder.'
     group = 'documentation'
+
     from('src/main/resources/webpage') {
-        include '**/*.html', '**/*.css', '**/*.js', '**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.svg'
+
+        include '**/*.html',
+                '**/*.css',
+                '**/*.js',
+                '**/*.png',
+                '**/*.jpg',
+                '**/*.jpeg',
+                '**/*.gif',
+                '**/*.svg'
     }
+
     into("$rootDir/docs")
+}
+
+test {
+    useTestNG()
+}
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'org.example.Main'
+        )
+    }
 }
